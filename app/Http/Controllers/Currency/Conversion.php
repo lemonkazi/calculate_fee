@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Currency;
 
 use App\Http\Controllers\Controller;
+
 /**
  * Currency Conversion.
  */
@@ -28,7 +29,7 @@ class Conversion
      * @param Currency $from From currency needs to convert
      * @param Currency $to   Converted to this currency
      */
-    public function __construct( $from,  $to)
+    public function __construct($from,  $to)
     {
         $this->from = $from;
         $this->to = $to;

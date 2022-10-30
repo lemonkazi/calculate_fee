@@ -7,6 +7,7 @@ use App\Http\Controllers\Currency\CurrencyContainer;
 use App\Http\Controllers\TransactionItem;
 use App\Http\Controllers\Transaction;
 use PHPUnit\Framework\TestCase;
+use Illuminate\Support\Facades\Facade;
 //use Tests\TestCase;
 use Illuminate\Support\Facades\Config;
 

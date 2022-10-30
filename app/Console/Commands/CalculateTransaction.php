@@ -22,15 +22,15 @@ class CalculateTransaction extends Command
      *
      * @var string
      */
-    protected $description = 'Commission fee calculation: Commission fee is always calculated in the currency of the operation. For example, if you withdraw or deposit in US dollars then commission fee is also in US dollars.';
-    
+    protected $description = 'Commission fee calculation: Commission fee will calculate. For example, if you withdraw or deposit in US dollars then commission fee is also in US dollars.';
+
     /**
      * Transaction items.
      *
-     * @var array<TransactionItem> items list array
+     * @var array items list array
      */
     private array $items;
-    
+
     /**
      * Create a new command instance.
      *
@@ -40,7 +40,7 @@ class CalculateTransaction extends Command
     {
         parent::__construct();
     }
-    
+
     /**
      * file data get and create array
      *
@@ -62,7 +62,7 @@ class CalculateTransaction extends Command
             }
             fclose($handle);
         }
-        
+
         return $arr;
     }
 
@@ -77,36 +77,31 @@ class CalculateTransaction extends Command
             \Log::info(get_class($this) . ': Start process');
             $filename = $this->argument('file');
             $this->info(sprintf('Importing file "%s"', $filename), $this->signature);
-            //$user = new UserController();
             $csvData = $this->csvToArray($filename, ',');
             if (!is_array($csvData)) {
                 $this->error('Check File format');
             }
-             /**
-            * Add some currencies.
-            *
-            * We can also process this from Currencies class.
-            * To make the process simpler we've added it
-            */
+            /**
+             * Add some currencies from config.
+             */
             $baseCurrency = new Currency();
             $baseCurrency->setCurrency(config('global.BASE_CURRENCY'));
-
             $currencyData = CurrencyContainer::getInstance();
             $currincies = config('global.currency');
-            
             foreach ($currincies as $value) {
                 $currencySet = new Currency();
                 if ($value == 'JPY') {
                     $currencySet->setCurrency($value)
-                                ->setDecimals(0);
+                        ->setDecimals(0);
                 } else {
                     $currencySet->setCurrency($value);
                 }
-               $currencyData->add($currencySet);
+                $currencyData->add($currencySet);
             }
-
+            /**
+             * read csv data and set items for get communication response
+             */
             foreach ($csvData as $data) {
-                list($date, $userId, $accountType, $type, $amount, $currency) = $data;
                 $this->items[] = new TransactionItem($data);
             }
 
@@ -114,14 +109,12 @@ class CalculateTransaction extends Command
             $transaction = new Transaction($this->items);
             $transaction->allProcess();
 
-            //$this->info(print_r($this->items));
             $this->info(implode("\n", $transaction->responses));
 
-            //dd($transaction->getTransactions());
             \Log::info(get_class($this) . ': End process');
             return Command::SUCCESS;
+
         } catch (\Throwable $th) {
-            //throw $th;
             $this->error($th->getMessage());
         }
     }

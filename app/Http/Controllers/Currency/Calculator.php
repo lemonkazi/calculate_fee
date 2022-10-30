@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Currency;
 
 use App\Http\Controllers\Controller;
+
 /**
  * Currency calculator class.
  *
@@ -70,7 +71,7 @@ class Calculator
      * @return float converted commission amount
      */
     public static function convertCommissionAmountToOwnCurrency($transactionItem, float $commission): float
-    {   
+    {
         $currency = new Currency();
         return self::convert($commission, $currency->getBaseCurrency(), $transactionItem->currency);
     }

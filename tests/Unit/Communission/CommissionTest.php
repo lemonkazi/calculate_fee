@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Currency;
+namespace Tests\Unit\Commission;
 
 use App\Http\Controllers\Commission\Commission;
 use PHPUnit\Framework\TestCase;

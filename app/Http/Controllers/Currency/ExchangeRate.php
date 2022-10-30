@@ -42,13 +42,13 @@ class ExchangeRate
             $resource = curl_exec($ch);
             curl_close($ch);
         } catch (\Exception $e) {
+            
             return Config::get('global.exchange_rate');
         }
         
         
         if ($resource && !empty($resource)) {
-            $resource = json_decode($resource, 1);
-           
+            $resource = json_decode($resource, 1);           
         } else {
             return Config::get('global.exchange_rate');
         }

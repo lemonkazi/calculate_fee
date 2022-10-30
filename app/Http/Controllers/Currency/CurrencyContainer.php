@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Currency;
 
 use App\Http\Controllers\Controller;
+
 /**
  * Currency Container class.
  *
@@ -75,7 +76,7 @@ class CurrencyContainer
         $currencyName = trim($currencyName);
 
         if (empty($this->currencies[$currencyName])) {
-            throw new \Exception('No currency found by this name - '.$currencyName, 400);
+            throw new \Exception('No currency found by this name - ' . $currencyName, 400);
         }
 
         return $this->currencies[$currencyName];

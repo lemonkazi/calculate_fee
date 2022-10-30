@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Commission;
 
 /**
- * Commission calculation helper.
+ * Commission calculation.
  *
- * Helper methods related to commission calculation.
+ * related to commission calculation.
  */
 class Commission
 {
     /**
-     * Get commission from transaction amount and commission fee.
+     * Get commission from transaction.
      *
      * @param float $transactionAmount transaction amount
      * @param float $commissionFee     commission fee
