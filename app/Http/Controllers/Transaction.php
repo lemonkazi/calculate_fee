@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Currency\Calculator;
 use App\Interfaces\TransactionsInterface;
-// use App\CommissionTask\Mapper\TransactionItem;
-// use App\CommissionTask\Mapper\TransactionItems;
 use App\Traits\MoneyFormatterTrait;
 use App\Http\Controllers\Transaction\Deposit\Deposit;
 use App\Http\Controllers\Transaction\Withdraw\Withdraw;
@@ -90,15 +88,15 @@ class Transaction implements TransactionsInterface
     {
         try {
             $transactions = $this->transactionItems;
-            
+
             foreach ($transactions as $transaction) {
-                
+
                 // Convert transaction amount to base currency
                 $transaction->amount = Calculator::convertTransactionAmountToBaseCurrency($transaction);
-                
+
                 // Process single transaction and get the commission.
                 $commission = $this->process($transaction);
-                
+
 
                 // Revert back the currency to it's own currency.
                 $commission = Calculator::convertCommissionAmountToOwnCurrency($transaction, $commission);
@@ -108,7 +106,7 @@ class Transaction implements TransactionsInterface
                 $this->responses[] = $this->format($commission, $transaction->currency);
             }
         } catch (Exception $e) {
-            throw new Exception('Something went wrong calculating. Error:'.$e->getMessage(), 400);
+            throw new Exception('Something went wrong calculating. Error:' . $e->getMessage(), 400);
         }
     }
 }

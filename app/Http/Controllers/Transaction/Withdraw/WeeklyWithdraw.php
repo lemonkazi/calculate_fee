@@ -1,11 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Http\Controllers\Transaction\Withdraw;
 
 use App\Http\Controllers\Commission\Commission;
 use DateTime;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Weekly withdrawal container.
@@ -19,10 +18,7 @@ class WeeklyWithdraw
 {
     //use SingletonTrait;
 
-    /**
-     * Free of charge amount limit of a week.
-     */
-    public const WEEKLY_FREE_OF_CHARGE_LIMIT = 1000;
+   
 
     /**
      * Weekly withdraws hashmap.
@@ -154,7 +150,7 @@ class WeeklyWithdraw
             return false;
         }
 
-        $isCrossedLimit = intval($this->withdraws[$userId][$weekNo]['count']) >= 3;
+        $isCrossedLimit = intval($this->withdraws[$userId][$weekNo]['count']) >= Config::get('global.WEEKLY_LIMIT');
 
         if ($isCrossedLimit) {
             // Now reset again
@@ -199,7 +195,7 @@ class WeeklyWithdraw
         $totalWithdrawn = $this->getTotal($userId, $weekNo);
         $thriceTimeWithdrawn = $this->isThriceTimes($userId, $weekNo);
         $amount = (float) $trnItem->amount;
-        $weeklyFreeLimit = self::WEEKLY_FREE_OF_CHARGE_LIMIT;
+        $weeklyFreeLimit = Config::get('global.WEEKLY_FREE_LIMIT');
 
         // Check if this operation is in the first 3 withdraw operations per week
         // and total free limit and withdrawal amount is exceeded.

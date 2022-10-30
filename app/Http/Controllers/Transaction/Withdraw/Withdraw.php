@@ -6,7 +6,7 @@ use App\Http\Controllers\Commission\Commission;
 use App\Interfaces\CommissionInterface;
 use App\Traits\CommissionTrait;
 use App\Traits\TransactionTrait;
-
+use Illuminate\Support\Facades\Config;
 /**
  * Withdraw type transaction class.
  *
@@ -55,11 +55,11 @@ class Withdraw implements CommissionInterface
     {
         switch ($this->transactionItem->clientType) {
             case 'private':
-                $this->setCommissionFee(0.3);
+                $this->setCommissionFee(Config::get('global.WITHDRAW_PRIVATE_COMMUSSION'));
                 break;
 
             case 'business':
-                $this->setCommissionFee(0.5);
+                $this->setCommissionFee(Config::get('global.WITHDRAW_BUSINESS_COMMUSSION'));
                 break;
 
             default:

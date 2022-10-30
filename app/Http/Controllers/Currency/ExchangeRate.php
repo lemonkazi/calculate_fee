@@ -6,9 +6,9 @@ namespace App\Http\Controllers\Currency;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Config;
 /**
- * Currency conversion data class.
+ * Currency Exchange data class.
  */
-class ExchangeRate
+class ExchangeRate extends Controller
 {
 
     const EXCHANGE_RATES_URL = "https://developers.paysera.com/tasks/api/currency-exchange-rates";
@@ -45,7 +45,6 @@ class ExchangeRate
             
             return Config::get('global.exchange_rate');
         }
-        
         
         if ($resource && !empty($resource)) {
             $resource = json_decode($resource, 1);           

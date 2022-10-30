@@ -31,7 +31,7 @@ class Calculator
     }
 
     /**
-     * Currency conversion from one currency to another.
+     * Currency Exchange from one currency to another.
      *
      * @param float  $amount           amount needs to be converted
      * @param string $fromCurrencyName from currency name
@@ -44,9 +44,9 @@ class Calculator
         $currencyData = CurrencyContainer::getInstance();
         $fromCurrency = $currencyData->get($fromCurrencyName);
         $toCurrency = $currencyData->get($toCurrencyName);
-        $conversion = new Conversion($fromCurrency, $toCurrency);
+        $exchange = new Exchange($fromCurrency, $toCurrency);
 
-        return $conversion->convert($amount);
+        return $exchange->convert($amount);
     }
 
     /**

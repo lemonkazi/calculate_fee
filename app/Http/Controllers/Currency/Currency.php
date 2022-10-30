@@ -45,11 +45,11 @@ class Currency extends Controller
      */
     public function getBaseCurrency(): string
     {
-        // try {
-        //     return $this->BASE_CURRENCY = Config::get('global.BASE_CURRENCY');
-        // } catch (\Throwable $th) {
+        try {
+            return $this->BASE_CURRENCY = Config::get('global.BASE_CURRENCY');
+        } catch (\Throwable $th) {
             return $this->BASE_CURRENCY = 'EUR';
-        //}
+        }
         //return $this->BASE_CURRENCY = 'EUR';
     }
 

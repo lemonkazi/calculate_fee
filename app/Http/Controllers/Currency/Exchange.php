@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Currency;
 use App\Http\Controllers\Controller;
 
 /**
- * Currency Conversion.
+ * Currency Exchange.
  */
-class Conversion
+class Exchange
 {
     /**
      * From currency.

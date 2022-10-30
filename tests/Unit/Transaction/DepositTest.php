@@ -4,10 +4,33 @@ namespace Tests\Unit\Transaction;
 
 use App\Http\Controllers\TransactionItem;
 use App\Http\Controllers\Transaction\Deposit\Deposit;
-use PHPUnit\Framework\TestCase;
+//use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
+use Illuminate\Support\Facades\Config;
 
 class DepositTest extends TestCase
 {
+
+    /**
+     * Add a csv file before starting the processes.
+     *
+     * @return void
+     */
+    protected function setup(): void
+    {
+        parent::setUp();
+       
+    }
+
+    /**
+     * Delete the file after processing.
+     *
+     * @return void
+     */
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
     /**
      * @param string $lineData transaction item line data
      * @param string $expected expected commission

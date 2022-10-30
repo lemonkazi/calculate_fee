@@ -43,7 +43,7 @@ class TransactionItem extends Controller
      * Transaction currency.
      */
     public string $currency;
-    
+
     /**
      * Class constructor.
      *

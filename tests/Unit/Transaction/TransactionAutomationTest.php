@@ -2,13 +2,13 @@
 
 namespace Tests\Unit\Transaction;
 
+use Illuminate\Support\Facades\Facade;
 use App\Http\Controllers\Currency\Currency;
 use App\Http\Controllers\Currency\CurrencyContainer;
 use App\Http\Controllers\TransactionItem;
 use App\Http\Controllers\Transaction;
-use PHPUnit\Framework\TestCase;
-use Illuminate\Support\Facades\Facade;
-//use Tests\TestCase;
+//use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 use Illuminate\Support\Facades\Config;
 
 class TransactionAutomationTest extends TestCase
@@ -23,6 +23,9 @@ class TransactionAutomationTest extends TestCase
     protected function setup(): void
     {
         parent::setUp();
+        Config::set('global.BASE_CURRENCY', env('BASE_CURRENCY', 'EUR'));
+        Config::set('global.DEPOSIT_COMMISSION', env('DEPOSIT_COMMISSION', 0.03));
+        Config::set('global.exchange_rate', $this->exchangeRate());
         $this->fileName = 'input.csv';
 
         // open csv file for writing
@@ -85,9 +88,10 @@ class TransactionAutomationTest extends TestCase
     public function testGetCommissionFeesCsvFile()
     {
         $csvData = file_get_contents($this->fileName);
-        // $csvReader = new CsvReader();
-        // $csvReader->setRows($csvData);
         $csvData = $this->csvToArray($this->fileName, ',');
+        
+        // print_r(Config::get('global.exchange_rate'));
+        // exit();
         // if (!is_array($csvData)) {
         //     $this->error('Check File format');
         // }
@@ -126,6 +130,9 @@ class TransactionAutomationTest extends TestCase
             $transaction->responses
         );
     }
+
+   
+
 
     /**
      * Get test data.

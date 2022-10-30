@@ -1,30 +1,22 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Http\Controllers\Transaction\Deposit;
 
 use App\Http\Controllers\Commission\Commission;
 use App\Interfaces\CommissionInterface;
 use App\Traits\CommissionTrait;
 use App\Traits\TransactionTrait;
+use Illuminate\Support\Facades\Config;
 
 /**
  * Deposit type transaction class.
  *
- * Handles TransactionItem instance and process it.
+ * Handles instance and process it.
  */
 class Deposit implements CommissionInterface
 {
     use TransactionTrait;
     use CommissionTrait;
-
-    /**
-     * Get default commission fee for Deposit transaction.
-     *
-     * @var float default commission fee
-     */
-    public const DEPOSIT_COMMISSION_FEE = 0.03;
 
     /**
      * Get commission amount for Deposit transaction.
@@ -43,7 +35,8 @@ class Deposit implements CommissionInterface
      */
     public function setDefaultCommissionFee(): self
     {
-        $this->setCommissionFee(self::DEPOSIT_COMMISSION_FEE);
+        $commu = Config::get('global.DEPOSIT_COMMISSION');
+        $this->setCommissionFee($commu);
 
         return $this;
     }

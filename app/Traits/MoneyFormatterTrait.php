@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Traits;
+
 use App\Http\Controllers\Currency\CurrencyContainer;
 use App\Http\Controllers\Currency\Currency;
 
@@ -22,7 +23,7 @@ trait MoneyFormatterTrait
      */
     public function format(
         float $amount,
-        string $currencyName = Currency::BASE_CURRENCY,
+        string $currencyName = 'EUR',
         ?string $decimal_separator = '.',
         ?string $thousands_separator = ''
     ): string {

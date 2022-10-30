@@ -45,9 +45,9 @@ class UserController extends Controller
         return $this->accountType;
     }
 
-    
 
-    
+
+
 
     /**
      * Get Remain 
@@ -64,5 +64,4 @@ class UserController extends Controller
         $result = (Arr::except($data, current(array_keys($data)))); // delete date row "2014-12-31" no need this
         return $result;
     }
-
 }
