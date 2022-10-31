@@ -17,7 +17,7 @@ class Commission
      *
      * @return float commission amount
      */
-    public static function calculate(float $transactionAmount, float $commissionFee): float
+    public static function commissionFee(float $transactionAmount, float $commissionFee): float
     {
         if ($commissionFee === 0) {
             return 0;

@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Transaction\Withdraw;
+namespace App\Transaction\Withdraw;
 
 use App\Commission\Commission;
 use App\Interfaces\CommissionInterface;
 use App\Traits\CommissionTrait;
-use App\Traits\TransactionTrait;
 use Illuminate\Support\Facades\Config;
 /**
  * Withdraw type transaction class.
@@ -14,8 +13,18 @@ use Illuminate\Support\Facades\Config;
  */
 class Withdraw implements CommissionInterface
 {
-    use TransactionTrait;
     use CommissionTrait;
+
+    /**
+     * Transaction amount instance.
+     */
+    public $transactionItem;
+
+    
+    public function __construct($transactionItem)
+    {
+        $this->transactionItem = $transactionItem;
+    }
 
     /**
      * Get commission for a withdraw transaction.
@@ -32,7 +41,7 @@ class Withdraw implements CommissionInterface
          * We don't need to process additional week calculation.
          */
         if ($this->transactionItem->clientType === 'business') {
-            return Commission::calculate($this->transactionItem->amount, $this->commissionFee);
+            return Commission::commissionFee($this->transactionItem->amount, $this->commissionFee);
         }
 
         /*
@@ -41,7 +50,7 @@ class Withdraw implements CommissionInterface
          * We've used a WeeklyWithdraw singleton class to store withdrawals
          * as object in memory and calculate commission.
          */
-        $weeklyWithdraw = WeeklyWithdraw::getInstance();
+        $weeklyWithdraw = PrivateWithdraw::getInstance();
 
         return $weeklyWithdraw->getCommission($this);
     }

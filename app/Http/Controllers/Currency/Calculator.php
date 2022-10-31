@@ -1,9 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Currency;
-
-use App\Http\Controllers\Controller;
-
 /**
  * Currency calculator class.
  *
@@ -44,9 +41,9 @@ class Calculator
         $currencyData = CurrencyContainer::getInstance();
         $fromCurrency = $currencyData->get($fromCurrencyName);
         $toCurrency = $currencyData->get($toCurrencyName);
-        $exchange = new Exchange($fromCurrency, $toCurrency);
+        //$exchange = new Exchange($fromCurrency, $toCurrency);
 
-        return $exchange->convert($amount);
+        return self::exchange($fromCurrency, $toCurrency, $amount);
     }
 
     /**
@@ -70,9 +67,30 @@ class Calculator
      *
      * @return float converted commission amount
      */
-    public static function convertCommissionAmountToOwnCurrency($transactionItem, float $commission): float
+    public static function convertToOwnCurrency($transactionItem, float $commission): float
     {
         $currency = new Currency();
         return self::convert($commission, $currency->getBaseCurrency(), $transactionItem->currency);
+    }
+
+
+    /**
+     * Convert currency from one currency to another.
+     *
+     * @param float $amount amount needs to convert
+     *
+     * @return float converted amount
+     */
+    public static function exchange($fromCurrency, $toCurrency,float $amount): float
+    {
+        // No need to process if both currencies are same.
+        if ($fromCurrency->getCurrency() === $toCurrency->getCurrency()) {
+            return $amount;
+        }
+
+        $fromRate = ExchangeRate::get($fromCurrency->getCurrency());
+        $toRate = ExchangeRate::get($toCurrency->getCurrency());
+
+        return self::changeRate($amount, $fromRate, $toRate);
     }
 }

@@ -1,21 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Transaction;
+namespace App\Transaction;
 
 use App\Http\Controllers\Currency\Calculator;
-use App\Interfaces\TransactionsInterface;
 use App\Traits\MoneyFormatTrait;
-use App\Http\Controllers\Transaction\Deposit\Deposit;
-use App\Http\Controllers\Transaction\Withdraw\Withdraw;
+use App\Transaction\Deposit\Deposit;
+use App\Transaction\Withdraw\Withdraw;
 use Exception;
 use Throwable;
 
 /**
  * Transaction Processor class.
  *
- * Handles TransactionItems[] and process it.
+ * Handles Items[] and process it.
  */
-class Transaction implements TransactionsInterface
+class Transaction
 {
     use MoneyFormatTrait;
 
@@ -25,17 +24,17 @@ class Transaction implements TransactionsInterface
     public array $responses;
 
     /**
-     * TransactionItems instance.
+     * Items instance.
      */
-    public $transactionItems;
+    public $items;
 
     /**
-     * Class constructor.
+     * constructor.
      */
     public function __construct($transactionItems)
     {
         $this->responses = [];
-        $this->transactionItems = $transactionItems;
+        $this->items = $transactionItems;
     }
 
     /**
@@ -50,7 +49,6 @@ class Transaction implements TransactionsInterface
     public function process($transactionItem): float
     {
         $amount = 0;
-
         try {
             switch ($transactionItem->transactionType) {
                 case 'deposit':
@@ -74,33 +72,25 @@ class Transaction implements TransactionsInterface
     }
 
     /**
-     * allProcesstransactions.
+     * allProcess .
      *
      * It will handle a list of transactions.
      *
      * @return void processes the transaction items
      *
-     * @throws Exception
      */
     public function allProcess(): void
     {
         try {
-            $transactions = $this->transactionItems;
-
+            $transactions = $this->items;
             foreach ($transactions as $transaction) {
-
-                // Convert transaction amount to base currency
+                // Convert item amount to base currency
                 $transaction->amount = Calculator::convertToBaseCurrency($transaction);
-
                 // Process single transaction and get the commission.
                 $commission = $this->process($transaction);
-
-
-                // Revert back the currency to it's own currency.
-                $commission = Calculator::convertCommissionAmountToOwnCurrency($transaction, $commission);
-                // print_r($commission);
-                // exit();
-                // Add in our responses[] list for next processing
+                // Revert back own currency.
+                $commission = Calculator::convertToOwnCurrency($transaction, $commission);
+                // Add in our responses[]
                 $this->responses[] = $this->formatAmount($commission, $transaction->currency);
             }
         } catch (Exception $e) {

@@ -18,7 +18,7 @@ class CommissionTest extends TestCase
     {
         $this->assertEquals(
             $expectation,
-            Commission::calculate($transactionAmount, $commissionFee)
+            Commission::commissionFee($transactionAmount, $commissionFee)
         );
     }
 

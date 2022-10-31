@@ -3,8 +3,8 @@
 namespace Tests\Unit\Transaction;
 
 use App\TransactionMapper\TransactionMapper;
-use App\Http\Controllers\Transaction\Withdraw\Withdraw;
-use PHPUnit\Framework\TestCase;
+use App\Transaction\Withdraw\Withdraw;
+use Tests\TestCase;
 use Illuminate\Support\Facades\Config;
 
 class WithdrawTest extends TestCase

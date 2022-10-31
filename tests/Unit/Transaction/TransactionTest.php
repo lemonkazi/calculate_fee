@@ -11,7 +11,7 @@ use App\Http\Controllers\TransactionController;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Config;
 
-class TransactionAutomationTest extends TestCase
+class TransactionTest extends TestCase
 {
     public string $fileName;
 
@@ -23,9 +23,6 @@ class TransactionAutomationTest extends TestCase
     protected function setup(): void
     {
         parent::setUp();
-        Config::set('global.BASE_CURRENCY', env('BASE_CURRENCY', 'EUR'));
-        Config::set('global.DEPOSIT_COMMISSION', env('DEPOSIT_COMMISSION', 0.03));
-        Config::set('global.exchange_rate', $this->exchangeRate());
         $this->fileName = 'input.csv';
 
         // open csv file for writing

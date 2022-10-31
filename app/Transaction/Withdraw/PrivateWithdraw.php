@@ -1,40 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Transaction\Withdraw;
+namespace App\Transaction\Withdraw;
 
 use App\Commission\Commission;
-use DateTime;
 use Illuminate\Support\Facades\Config;
+use Carbon\Carbon;
 
 /**
- * Weekly withdrawal container.
+ * Private withdrawal container.
  *
  * We use this for storing our weekly withdrawals in memory.
  *
- * @see SingletonTrait
  * @see Withdraw
  */
-class WeeklyWithdraw
+class PrivateWithdraw
 {
-    //use SingletonTrait;
-
-   
-
     /**
      * Weekly withdraws hashmap.
-     *
-     * @example
-     *
-     * ```
-     * $weeklyWithdraws = [
-     *  userId => [
-     *     weekNo => [
-     *          'count' => countNo,
-     *          'total' => totalAmount
-     *      ]
-     *  ]
-     * ]
-     * ```
+     *`
      */
     private array $withdraws;
 
@@ -68,26 +51,6 @@ class WeeklyWithdraw
     }
 
 
-    /**
-     * Get week no from date in a year.
-     *
-     * @param string $date       Date
-     * @param bool   $appendYear $appendYear or not
-     *                           If true, then works with previous year too
-     *
-     * @return int get week no
-     */
-    public static function getWeekNo(string $date, bool $appendYear = false): int
-    {
-        $date = new DateTime($date);
-        $weekNo = (int) $date->format('W');
-
-        if ($appendYear) {
-            $weekNo += (int) $date->format('o');
-        }
-
-        return $weekNo;
-    }
 
     /**
      * Get weekly withdraw hashmap array.
@@ -99,18 +62,6 @@ class WeeklyWithdraw
         return $this->withdraws;
     }
 
-    /**
-     * If user already withdraw any money in this week.
-     *
-     * @param int $userId user id
-     * @param int $weekNo week no
-     *
-     * @return bool If already withdrawn or not
-     */
-    public function isAlreadyWithdrawn(int $userId, int $weekNo): bool
-    {
-        return isset($this->withdraws[$userId][$weekNo]['total']) && $this->withdraws[$userId][$weekNo]['total'] > 0;
-    }
 
     /**
      * Add and increment weekly withdraws.
@@ -144,7 +95,7 @@ class WeeklyWithdraw
      *
      * @return bool more than or equal thrice times withdrawn or not
      */
-    public function isThriceTimes(int $userId, int $weekNo): bool
+    public function isRemain(int $userId, int $weekNo): bool
     {
         if (!isset($this->withdraws[$userId][$weekNo]['count'])) {
             return false;
@@ -156,23 +107,13 @@ class WeeklyWithdraw
             // Now reset again
             $this->withdraws[$userId][$weekNo]['count'] = 0;
             $this->withdraws[$userId][$weekNo]['total'] = 0;
+            return 0;
         }
 
         return $isCrossedLimit;
     }
 
-    /**
-     * Get total withdrawn amount.
-     *
-     * @param int $userId user id
-     * @param int $weekNo week no
-     *
-     * @return float get total withdrawn amount for a user in a week
-     */
-    public function getTotal(int $userId, int $weekNo): float
-    {
-        return isset($this->withdraws[$userId][$weekNo]['total']) ? $this->withdraws[$userId][$weekNo]['total'] : 0;
-    }
+    
 
     /**
      * Get weekly commission.
@@ -189,40 +130,44 @@ class WeeklyWithdraw
         $trnItem = $withdraw->transactionItem;
         $commissionFee = $withdraw->commissionFee;
 
-        $weekNo = self::getWeekNo($trnItem->date, true);
+        
+        $date = Carbon::parse($trnItem->date);
+        $weekNo = (int) $date->format('W');
+        $weekNo += (int) $date->format('o');
         $userId = $trnItem->userId;
-        $alreadyWithdrawn = $this->isAlreadyWithdrawn($userId, $weekNo);
-        $totalWithdrawn = $this->getTotal($userId, $weekNo);
-        $thriceTimeWithdrawn = $this->isThriceTimes($userId, $weekNo);
+        $alreadyWithdrawn = false;
+        if(isset($this->withdraws[$userId][$weekNo]['total']) && $this->withdraws[$userId][$weekNo]['total'] > 0){
+            $alreadyWithdrawn = true;
+        }
+        $totalWithdrawn = isset($this->withdraws[$userId][$weekNo]['total']) ? $this->withdraws[$userId][$weekNo]['total'] : 0;
+        $isRemain = $this->isRemain($userId, $weekNo); // 3 times already done or not
         $amount = (float) $trnItem->amount;
         $weeklyFreeLimit = Config::get('global.WEEKLY_FREE_LIMIT');
 
         // Check if this operation is in the first 3 withdraw operations per week
-        // and total free limit and withdrawal amount is exceeded.
         if (
             $alreadyWithdrawn &&
-            ($thriceTimeWithdrawn >= $weeklyFreeLimit || $totalWithdrawn >= $weeklyFreeLimit)
+            ($isRemain >= 1 || $totalWithdrawn >= $weeklyFreeLimit)
         ) {
-            return Commission::calculate($amount, $commissionFee);
+            return Commission::commissionFee($amount, $commissionFee);
         }
 
         // Increment weekly withdraws
         $this->add($userId, $weekNo, $amount);
 
         // Fetch total withdrawal again after add the value.
-        $totalWithdrawn = $this->getTotal($userId, $weekNo);
+        $totalWithdrawn = isset($this->withdraws[$userId][$weekNo]['total']) ? $this->withdraws[$userId][$weekNo]['total'] : 0;
 
         // Check if total withdrawal is less than the free limit.
         if ($totalWithdrawn <= $weeklyFreeLimit) {
             return 0;
         }
 
-        // If total free of charge amount is exceeded,
-        // then commission is calculated only for the exceeded amount
+        // If total exceeded, commission is calculated only for the exceeded amount
         if ($totalWithdrawn > $weeklyFreeLimit) {
             $amount = $totalWithdrawn - $weeklyFreeLimit;
         }
 
-        return Commission::calculate($amount, $commissionFee);
+        return Commission::commissionFee($amount, $commissionFee);
     }
 }

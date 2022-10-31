@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Transaction\Deposit;
+namespace App\Transaction\Deposit;
 
 use App\Commission\Commission;
 use App\Interfaces\CommissionInterface;
 use App\Traits\CommissionTrait;
-use App\Traits\TransactionTrait;
 use Illuminate\Support\Facades\Config;
 
 /**
@@ -15,9 +14,18 @@ use Illuminate\Support\Facades\Config;
  */
 class Deposit implements CommissionInterface
 {
-    use TransactionTrait;
     use CommissionTrait;
 
+    /**
+     * Transaction amount instance.
+     */
+    public $transactionItem;
+
+    
+    public function __construct($transactionItem)
+    {
+        $this->transactionItem = $transactionItem;
+    }
     /**
      * Get commission amount for Deposit transaction.
      *
@@ -25,7 +33,7 @@ class Deposit implements CommissionInterface
      */
     public function getCommission(): float
     {
-        return Commission::calculate($this->transactionItem->amount, $this->commissionFee);
+        return Commission::commissionFee($this->transactionItem->amount, $this->commissionFee);
     }
 
     /**
@@ -35,8 +43,7 @@ class Deposit implements CommissionInterface
      */
     public function setDefaultCommissionFee(): self
     {
-        $commu = Config::get('global.DEPOSIT_COMMISSION');
-        $this->setCommissionFee($commu);
+        $this->setCommissionFee(Config::get('global.DEPOSIT_COMMISSION'));
 
         return $this;
     }
