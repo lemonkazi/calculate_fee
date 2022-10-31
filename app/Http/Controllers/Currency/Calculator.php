@@ -56,7 +56,7 @@ class Calculator
      *
      * @return float converted amount
      */
-    public static function convertTransactionAmountToBaseCurrency($transactionItem): float
+    public static function convertToBaseCurrency($transactionItem): float
     {
         $currency = new Currency();
         return self::convert($transactionItem->amount, $transactionItem->currency, $currency->getBaseCurrency());

@@ -3,10 +3,32 @@
 namespace Tests\Unit\Currency;
 
 use App\Http\Controllers\Currency\Calculator;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
+use Illuminate\Support\Facades\Config;
 
 class CalculatorTest extends TestCase
 {
+
+     /**
+     * Add a csv file before starting the processes.
+     *
+     * @return void
+     */
+    protected function setup(): void
+    {
+        parent::setUp();
+       
+    }
+
+    /**
+     * Delete the file after processing.
+     *
+     * @return void
+     */
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
     /**
      * @test
      *

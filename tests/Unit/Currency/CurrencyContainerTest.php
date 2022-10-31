@@ -5,7 +5,8 @@ namespace Tests\Unit\Currency;
 
 use App\Http\Controllers\Currency\Currency;
 use App\Http\Controllers\Currency\CurrencyContainer;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
+use Illuminate\Support\Facades\Config;
 
 class CurrencyContainerTest extends TestCase
 {
@@ -20,6 +21,7 @@ class CurrencyContainerTest extends TestCase
      */
     protected function setup(): void
     {
+        parent::setUp();
         $this->container = CurrencyContainer::getInstance();
 
         $baseCurrency = new Currency();
@@ -42,6 +44,7 @@ class CurrencyContainerTest extends TestCase
      */
     protected function tearDown(): void
     {
+        parent::tearDown();
         $this->container->remove('EUR')
             ->remove('USD')
             ->remove('JPY');

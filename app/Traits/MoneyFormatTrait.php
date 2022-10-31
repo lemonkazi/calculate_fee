@@ -5,7 +5,7 @@ namespace App\Traits;
 use App\Http\Controllers\Currency\CurrencyContainer;
 use App\Http\Controllers\Currency\Currency;
 
-trait MoneyFormatterTrait
+trait MoneyFormatTrait
 {
     /**
      * Format any amount to it's decimals with rounding.
@@ -21,7 +21,7 @@ trait MoneyFormatterTrait
      *
      * @return string formatted amount
      */
-    public function format(
+    public function formatAmount(
         float $amount,
         string $currencyName = 'EUR',
         ?string $decimal_separator = '.',
@@ -30,15 +30,6 @@ trait MoneyFormatterTrait
         $currencyData = CurrencyContainer::getInstance();
         $currency = $currencyData->get($currencyName);
         $decimals = $currency ? $currency->getDecimals() : 2;
-
-        /*
-         * Rounded up amount value for currencies which has no decimal point.
-         * Eg: JPY, VND, KRW these currencies has no decimal
-         */
-        if ($currency->getDecimals() === 0) {
-            $amount = ceil($amount);
-        }
-
         return number_format(round($amount, $decimals), $decimals, $decimal_separator, $thousands_separator);
     }
 }

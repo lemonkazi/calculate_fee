@@ -28,6 +28,18 @@ class Currency extends Controller
      */
     private int $decimals = 2;
 
+
+    /**
+     * Currency fractions
+     *
+     * @var array
+     */
+    static protected $fractions; 
+
+    public function __construct()
+    {
+        self::$fractions = Config::get('global.CURRENCY_FRACTION');
+    }
     /**
      * Get the value of currency name.
      *
@@ -74,7 +86,12 @@ class Currency extends Controller
      */
     public function getDecimals(): int
     {
-        return $this->decimals;
+        //return $this->decimals;
+        $currency = strtoupper($this->currency);
+        if (!isset(static::$fractions[$currency])) {
+            throw new \Exception(sprintf('Unsupported currency: %s', $currency));
+        }
+        return static::$fractions[$currency];
     }
 
     /**

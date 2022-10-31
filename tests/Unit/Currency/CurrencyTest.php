@@ -3,10 +3,32 @@
 namespace Tests\Unit\Currency;
 
 use App\Http\Controllers\Currency\Currency;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
+use Illuminate\Support\Facades\Config;
 
 class CurrencyTest extends TestCase
 {
+
+     /**
+     * Add a csv file before starting the processes.
+     *
+     * @return void
+     */
+    protected function setup(): void
+    {
+        parent::setUp();
+       
+    }
+
+    /**
+     * Delete the file after processing.
+     *
+     * @return void
+     */
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
     /**
      * Test Set Curency
      *
@@ -17,17 +39,11 @@ class CurrencyTest extends TestCase
     public function testSetCurrency($currencyType, $expected)
     {
         $currency = new Currency();
-        $currency->setCurrency($currencyType)
-            ->setDecimals(4);
+        $currency->setCurrency($currencyType);
 
         $this->assertEquals(
             $expected,
             $currency->getCurrency()
-        );
-
-        $this->assertEquals(
-            4,
-            $currency->getDecimals()
         );
     }
 

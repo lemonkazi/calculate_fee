@@ -92,8 +92,7 @@ class CalculateTransaction extends Command
             foreach ($currincies as $value) {
                 $currencySet = new Currency();
                 if ($value == 'JPY') {
-                    $currencySet->setCurrency($value)
-                        ->setDecimals(0);
+                    $currencySet->setCurrency($value);
                 } else {
                     $currencySet->setCurrency($value);
                 }

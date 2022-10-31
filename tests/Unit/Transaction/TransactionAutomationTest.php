@@ -179,7 +179,7 @@ class TransactionAutomationTest extends TestCase
             3.00,
             0.00,
             0.00,
-            8608
+            8607
         ];
     }
 }

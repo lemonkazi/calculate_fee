@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Transaction;
 
 use App\Http\Controllers\Currency\Calculator;
 use App\Interfaces\TransactionsInterface;
-use App\Traits\MoneyFormatterTrait;
+use App\Traits\MoneyFormatTrait;
 use App\Http\Controllers\Transaction\Deposit\Deposit;
 use App\Http\Controllers\Transaction\Withdraw\Withdraw;
 use Exception;
@@ -17,7 +17,7 @@ use Throwable;
  */
 class Transaction implements TransactionsInterface
 {
-    use MoneyFormatterTrait;
+    use MoneyFormatTrait;
 
     /**
      * Transaction responses.
@@ -74,11 +74,9 @@ class Transaction implements TransactionsInterface
     }
 
     /**
-     * Process bulk transactions.
+     * allProcesstransactions.
      *
      * It will handle a list of transactions.
-     * For now, it's just processing the commission amount and
-     * then, it'll just store the commission to responses[]
      *
      * @return void processes the transaction items
      *
@@ -92,7 +90,7 @@ class Transaction implements TransactionsInterface
             foreach ($transactions as $transaction) {
 
                 // Convert transaction amount to base currency
-                $transaction->amount = Calculator::convertTransactionAmountToBaseCurrency($transaction);
+                $transaction->amount = Calculator::convertToBaseCurrency($transaction);
 
                 // Process single transaction and get the commission.
                 $commission = $this->process($transaction);
@@ -103,7 +101,7 @@ class Transaction implements TransactionsInterface
                 // print_r($commission);
                 // exit();
                 // Add in our responses[] list for next processing
-                $this->responses[] = $this->format($commission, $transaction->currency);
+                $this->responses[] = $this->formatAmount($commission, $transaction->currency);
             }
         } catch (Exception $e) {
             throw new Exception('Something went wrong calculating. Error:' . $e->getMessage(), 400);
