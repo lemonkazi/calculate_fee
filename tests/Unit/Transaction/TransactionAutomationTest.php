@@ -5,8 +5,8 @@ namespace Tests\Unit\Transaction;
 use Illuminate\Support\Facades\Facade;
 use App\Http\Controllers\Currency\Currency;
 use App\Http\Controllers\Currency\CurrencyContainer;
-use App\Http\Controllers\TransactionItem;
-use App\Http\Controllers\Transaction;
+use App\TransactionMapper\TransactionMapper;
+use App\Http\Controllers\TransactionController;
 //use PHPUnit\Framework\TestCase;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Config;
@@ -119,10 +119,11 @@ class TransactionAutomationTest extends TestCase
         // $transactionItems->setItems($csvReader->getRows());
 
         foreach ($csvData as $data) {
-            $transactionItems[] = new TransactionItem($data);
+            $transactionItems[] = new TransactionMapper($data);
         }
         // Process transaction
-        $transaction = new Transaction($transactionItems);
+        $transaction = new TransactionController();
+        $transaction = $transaction->transaction($transactionItems);
         $transaction->allProcess();
 
         $this->assertEquals(

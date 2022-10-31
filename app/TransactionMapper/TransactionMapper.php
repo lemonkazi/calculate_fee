@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\TransactionMapper;
 
 
 /**
@@ -8,7 +8,7 @@ namespace App\Http\Controllers;
  *
  * Map the `$lineData` array to an object.
  */
-class TransactionItem extends Controller
+class TransactionMapper
 {
     /**
      * Transaction date.

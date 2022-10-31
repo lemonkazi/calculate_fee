@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Transaction;
 
 use App\Http\Controllers\Currency\Calculator;
 use App\Interfaces\TransactionsInterface;

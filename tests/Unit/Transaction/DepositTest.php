@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Transaction;
 
-use App\Http\Controllers\TransactionItem;
+use App\TransactionMapper\TransactionMapper;
 use App\Http\Controllers\Transaction\Deposit\Deposit;
 //use PHPUnit\Framework\TestCase;
 use Tests\TestCase;
@@ -40,7 +40,7 @@ class DepositTest extends TestCase
     public function testGetDepositCommission(string $lineData, float $expected)
     {
         $transactionItemData = explode(',', $lineData);
-        $transactionItem = new TransactionItem($transactionItemData);
+        $transactionItem = new TransactionMapper($transactionItemData);
 
         $deposit = new Deposit($transactionItem);
         $commission = $deposit->setDefaultCommissionFee()->getCommission();

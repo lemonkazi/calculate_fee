@@ -4,8 +4,9 @@ namespace App\Console\Commands;
 
 use App\Http\Controllers\Currency\CurrencyContainer;
 use App\Http\Controllers\Currency\Currency;
-use App\Http\Controllers\TransactionItem;
-use App\Http\Controllers\Transaction;
+use App\TransactionMapper\TransactionMapper;
+//use App\Http\Controllers\Transaction;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Console\Command;
 
 class CalculateTransaction extends Command
@@ -102,15 +103,15 @@ class CalculateTransaction extends Command
              * read csv data and set items for get communication response
              */
             foreach ($csvData as $data) {
-                $this->items[] = new TransactionItem($data);
+                $this->items[] = new TransactionMapper($data);
             }
 
             // Process transaction
-            $transaction = new Transaction($this->items);
+            $transactionFactory = new TransactionController();
+            $transaction = $transactionFactory->transaction($this->items);
             $transaction->allProcess();
-
-            $this->info(implode("\n", $transaction->responses));
-
+            
+            $this->line(implode("\n", $transaction->responses));
             \Log::info(get_class($this) . ': End process');
             return Command::SUCCESS;
 
