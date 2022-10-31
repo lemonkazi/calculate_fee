@@ -2,10 +2,8 @@
 
 namespace Tests\Unit\Currency;
 
-use App\Http\Controllers\Currency\ExchangeRate;
-use Illuminate\Support\Facades\Facade;
+use App\ExchangeRate\ExchangeRate;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Config;
 
 class ExchangeRateTest extends TestCase
 {

@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Currency;
+namespace App\Currency;
 
-use App\Http\Controllers\Controller;
 
 /**
  * Currency Container class.

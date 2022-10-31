@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Currency;
+namespace App\Currency;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Config;
 
-class Currency extends Controller
+class Currency
 {
     /**
      * Get Base currency name.

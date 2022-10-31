@@ -2,7 +2,7 @@
 
 namespace App\Transaction;
 
-use App\Http\Controllers\Currency\Calculator;
+use App\Http\Controllers\CalculationController;
 use App\Traits\MoneyFormatTrait;
 use App\Transaction\Deposit\Deposit;
 use App\Transaction\Withdraw\Withdraw;
@@ -85,11 +85,11 @@ class Transaction
             $transactions = $this->items;
             foreach ($transactions as $transaction) {
                 // Convert item amount to base currency
-                $transaction->amount = Calculator::convertToBaseCurrency($transaction);
+                $transaction->amount = CalculationController::convertToBaseCurrency($transaction);
                 // Process single transaction and get the commission.
                 $commission = $this->process($transaction);
                 // Revert back own currency.
-                $commission = Calculator::convertToOwnCurrency($transaction, $commission);
+                $commission = CalculationController::convertToOwnCurrency($transaction, $commission);
                 // Add in our responses[]
                 $this->responses[] = $this->formatAmount($commission, $transaction->currency);
             }

@@ -3,8 +3,8 @@
 
 namespace Tests\Unit\Currency;
 
-use App\Http\Controllers\Currency\Currency;
-use App\Http\Controllers\Currency\CurrencyContainer;
+use App\Currency\Currency;
+use App\Currency\CurrencyContainer;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Config;
 

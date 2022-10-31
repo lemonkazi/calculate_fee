@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Currency;
 
-use App\Http\Controllers\Currency\Calculator;
+use App\Http\Controllers\CalculationController;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Config;
 
@@ -36,7 +36,7 @@ class CalculatorTest extends TestCase
      */
     public function testChangeRate(float $amount, float $fromRate, float $toRate, float $expectation): void
     {
-        $changedRate = Calculator::changeRate($amount, $fromRate, $toRate);
+        $changedRate = CalculationController::changeRate($amount, $fromRate, $toRate);
 
         $this->assertEquals(
             $expectation,

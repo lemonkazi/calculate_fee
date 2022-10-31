@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Currency;
 
-use App\Http\Controllers\Currency\Currency;
+use App\Currency\Currency;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Config;
 

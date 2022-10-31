@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Controllers\Currency\CurrencyContainer;
-use App\Http\Controllers\Currency\Currency;
+use App\Currency\CurrencyContainer;
+use App\Currency\Currency;
 use App\TransactionMapper\TransactionMapper;
 //use App\Http\Controllers\Transaction;
 use App\Http\Controllers\TransactionController;

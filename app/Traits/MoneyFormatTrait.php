@@ -2,8 +2,8 @@
 
 namespace App\Traits;
 
-use App\Http\Controllers\Currency\CurrencyContainer;
-use App\Http\Controllers\Currency\Currency;
+use App\Currency\CurrencyContainer;
+use App\Currency\Currency;
 
 trait MoneyFormatTrait
 {

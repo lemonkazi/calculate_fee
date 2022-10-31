@@ -1,13 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Currency;
-/**
- * Currency calculator class.
- *
- * It'll handle all the calculation related to currencies.
- */
-class Calculator
+namespace App\Http\Controllers;
+
+use App\Http\Controllers\Controller;
+use App\Transaction\Transaction;
+use App\Currency\CurrencyContainer;
+use App\Currency\Currency;
+use App\ExchangeRate\ExchangeRate;
+
+class CalculationController extends Controller
 {
+
+    /**
+     * create a new instance of the class
+     *
+     * @return void
+     */
+    function __construct()
+    {
+        parent::__construct();
+    }
+
     /**
      * Change amount's rate from one currency to another currency.
      *

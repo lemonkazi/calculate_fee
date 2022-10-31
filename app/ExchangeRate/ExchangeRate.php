@@ -1,14 +1,13 @@
 <?php
 
 
-namespace App\Http\Controllers\Currency;
+namespace App\ExchangeRate;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Config;
 /**
  * Currency Exchange data class.
  */
-class ExchangeRate extends Controller
+class ExchangeRate
 {
 
     const EXCHANGE_RATES_URL = "https://developers.paysera.com/tasks/api/currency-exchange-rates";
