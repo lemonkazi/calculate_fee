@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Transaction\Deposit;
 
-use App\Http\Controllers\Commission\Commission;
+use App\Commission\Commission;
 use App\Interfaces\CommissionInterface;
 use App\Traits\CommissionTrait;
 use App\Traits\TransactionTrait;

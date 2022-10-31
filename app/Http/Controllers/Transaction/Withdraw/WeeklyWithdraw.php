@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Transaction\Withdraw;
 
-use App\Http\Controllers\Commission\Commission;
+use App\Commission\Commission;
 use DateTime;
 use Illuminate\Support\Facades\Config;
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Commission;
+namespace App\Commission;
 
 /**
- * Commission calculation.
+ * Commission calculation class.
  *
  * related to commission calculation.
  */
