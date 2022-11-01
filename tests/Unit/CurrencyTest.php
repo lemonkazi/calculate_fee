@@ -1,10 +1,9 @@
 <?php
 
-namespace Tests\Unit\Currency;
+namespace Tests\Unit;
 
 use App\Helpers\Currency\Currency;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Config;
 
 class CurrencyTest extends TestCase
 {

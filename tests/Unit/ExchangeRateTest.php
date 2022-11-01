@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Currency;
+namespace Tests\Unit;
 
 use App\Helpers\ExchangeRate;
 use Tests\TestCase;

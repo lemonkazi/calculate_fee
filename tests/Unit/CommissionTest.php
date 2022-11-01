@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Unit\Commission;
+namespace Tests\Unit;
 
 use App\Helpers\Commission;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class CommissionTest extends TestCase
 {
@@ -12,9 +12,9 @@ class CommissionTest extends TestCase
      * @param float $commissionFee
      * @param int   $expectation
      *
-     * @dataProvider dataProviderForCommissionCalculation
+     * @dataProvider setCommissionProvider
      */
-    public function testCommissionCalculation(float $transactionAmount, float $commissionFee, float $expectation)
+    public function testCommission(float $transactionAmount, float $commissionFee, float $expectation)
     {
         $this->assertEquals(
             $expectation,
@@ -22,7 +22,7 @@ class CommissionTest extends TestCase
         );
     }
 
-    public function dataProviderForCommissionCalculation(): array
+    public function setCommissionProvider(): array
     {
         return [
             'Commission for 1000 and fee 0.3' => [1000, 0.3, 3],

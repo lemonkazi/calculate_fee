@@ -1,12 +1,10 @@
 <?php
 
-namespace Tests\Unit\Transaction;
+namespace Tests\Unit;
 
 use App\Helpers\TransactionMapper;
 use App\Helpers\Transaction\Deposit\Deposit;
-//use PHPUnit\Framework\TestCase;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Config;
 
 class DepositTest extends TestCase
 {

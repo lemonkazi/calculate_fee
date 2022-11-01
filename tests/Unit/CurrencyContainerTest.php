@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Tests\Unit\Currency;
+namespace Tests\Unit;
 
 use App\Helpers\Currency\Currency;
 use App\Helpers\Currency\CurrencyContainer;
@@ -30,8 +30,7 @@ class CurrencyContainerTest extends TestCase
         $currencyUsd->setCurrency('USD');
 
         $currencyJpy = new Currency();
-        $currencyJpy->setCurrency('JPY')
-            ->setDecimals(0);
+        $currencyJpy->setCurrency('JPY');
 
         $this->container->add($baseCurrency)
             ->add($currencyUsd)
@@ -52,28 +51,28 @@ class CurrencyContainerTest extends TestCase
     public function testGetCurrencyContainerData()
     {
         /*
-        * Test For USD Currency with Zero (2) decimals
+        * Test For USD Currency with Zero (2) fractions
         */
-        $currencyUsd = $this->container->get('USD')->setDecimals(2);
+        $currencyUsd = $this->container->get('USD');
 
         // Test if currency is instantiated.
         $this->assertTrue($currencyUsd instanceof Currency);
 
-        // Test if decimals get works.
+        // Test if fractions get works.
         $this->assertEquals(
             2,
-            $currencyUsd->getDecimals()
+            $currencyUsd->getFractions()
         );
 
         /*
-        * Test For JPY Currency with Zero (0) decimals
+        * Test For JPY Currency with Zero (0) fractions
         */
-        $currencyJpy = $this->container->get('JPY')->setDecimals(0);
+        $currencyJpy = $this->container->get('JPY');
 
-        // Test if decimals get works.
+        // Test if fractions get works.
         $this->assertEquals(
             0,
-            $currencyJpy->getDecimals()
+            $currencyJpy->getFractions()
         );
     }
 }

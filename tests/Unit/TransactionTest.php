@@ -1,15 +1,12 @@
 <?php
 
-namespace Tests\Unit\Transaction;
+namespace Tests\Unit;
 
-use Illuminate\Support\Facades\Facade;
 use App\Helpers\Currency\Currency;
 use App\Helpers\Currency\CurrencyContainer;
 use App\Helpers\TransactionMapper;
 use App\Http\Controllers\TransactionController;
-//use PHPUnit\Framework\TestCase;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Config;
 
 class TransactionTest extends TestCase
 {
@@ -87,12 +84,6 @@ class TransactionTest extends TestCase
         $csvData = file_get_contents($this->fileName);
         $csvData = $this->csvToArray($this->fileName, ',');
         
-        // print_r(Config::get('global.exchange_rate'));
-        // exit();
-        // if (!is_array($csvData)) {
-        //     $this->error('Check File format');
-        // }
-
         /**
          * Add some currencies for testing.
          */
@@ -103,18 +94,13 @@ class TransactionTest extends TestCase
         $currencyUsd->setCurrency('USD');
 
         $currencyJpy = new Currency();
-        $currencyJpy->setCurrency('JPY')
-            ->setDecimals(0);
+        $currencyJpy->setCurrency('JPY');
 
         $currencyData = CurrencyContainer::getInstance();
         $currencyData->add($baseCurrency)
             ->add($currencyUsd)
             ->add($currencyJpy);
-
-        // Map transaction data into TransactionItem object.
-        // $transactionItems = new TransactionItems();
-        // $transactionItems->setItems($csvReader->getRows());
-
+            
         foreach ($csvData as $data) {
             $transactionItems[] = new TransactionMapper($data);
         }

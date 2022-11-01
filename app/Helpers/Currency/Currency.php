@@ -69,30 +69,16 @@ class Currency
     }
 
     /**
-     * Get the value of decimals.
+     * Get the value of fractions.
      *
-     * @return int decimal point
+     * @return int fraction point
      */
-    public function getDecimals(): int
+    public function getFractions(): int
     {
-        //return $this->decimals;
         $currency = strtoupper($this->currency);
         if (!isset(static::$fractions[$currency])) {
             throw new \Exception(sprintf('Unsupported currency: %s', $currency));
         }
         return static::$fractions[$currency];
-    }
-
-    /**
-     * Set the value of decimals.
-     *
-     * @param int $decimal decimal point
-     *
-     * @return self currency class instance
-     */
-    public function setDecimals(int $decimals): self
-    {
-        $this->decimals = $decimals;
-        return $this;
     }
 }

@@ -1,11 +1,10 @@
 <?php
 
-namespace Tests\Unit\Transaction;
+namespace Tests\Unit;
 
 use App\Helpers\TransactionMapper;
 use App\Helpers\Transaction\Withdraw\Withdraw;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Config;
 
 class WithdrawTest extends TestCase
 {

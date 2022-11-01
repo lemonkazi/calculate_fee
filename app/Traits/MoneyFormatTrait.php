@@ -7,9 +7,9 @@ use App\Helpers\Currency\CurrencyContainer;
 trait MoneyFormatTrait
 {
     /**
-     * Format any amount to it's decimals with rounding.
+     * Format any amount to it's fractions with rounding.
      *
-     * It's wrapper of number_format() but calculates decimals from currency
+     * It's wrapper of number_format() but calculates fractions from currency
      *
      * @param float  $amount              amount needs to format
      * @param string $currencyName        currency name
@@ -28,7 +28,7 @@ trait MoneyFormatTrait
     ): string {
         $currencyData = CurrencyContainer::getInstance();
         $currency = $currencyData->get($currencyName);
-        $decimals = $currency ? $currency->getDecimals() : 2;
-        return number_format(round($amount, $decimals), $decimals, $decimal_separator, $thousands_separator);
+        $fractions = $currency ? $currency->getFractions() : 2;
+        return number_format(round($amount, $fractions), $fractions, $decimal_separator, $thousands_separator);
     }
 }

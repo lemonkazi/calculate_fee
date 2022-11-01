@@ -1,10 +1,9 @@
 <?php
 
-namespace Tests\Unit\Currency;
+namespace Tests\Unit;
 
 use App\Http\Controllers\CalculationController;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Config;
 
 class CalculatorTest extends TestCase
 {
