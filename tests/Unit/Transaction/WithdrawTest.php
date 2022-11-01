@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Transaction;
 
-use App\TransactionMapper\TransactionMapper;
-use App\Transaction\Withdraw\Withdraw;
+use App\Helpers\TransactionMapper;
+use App\Helpers\Transaction\Withdraw\Withdraw;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Config;
 

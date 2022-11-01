@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Commission;
 
-use App\Commission\Commission;
+use App\Helpers\Commission;
 use PHPUnit\Framework\TestCase;
 
 class CommissionTest extends TestCase

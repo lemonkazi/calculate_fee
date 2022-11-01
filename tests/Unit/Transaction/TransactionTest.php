@@ -3,9 +3,9 @@
 namespace Tests\Unit\Transaction;
 
 use Illuminate\Support\Facades\Facade;
-use App\Currency\Currency;
-use App\Currency\CurrencyContainer;
-use App\TransactionMapper\TransactionMapper;
+use App\Helpers\Currency\Currency;
+use App\Helpers\Currency\CurrencyContainer;
+use App\Helpers\TransactionMapper;
 use App\Http\Controllers\TransactionController;
 //use PHPUnit\Framework\TestCase;
 use Tests\TestCase;

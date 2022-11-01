@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Transaction\Transaction;
-use App\Currency\CurrencyContainer;
-use App\Currency\Currency;
-use App\ExchangeRate\ExchangeRate;
+use App\Helpers\Currency\CurrencyContainer;
+use App\Helpers\Currency\Currency;
+use App\Helpers\ExchangeRate;
 
 class CalculationController extends Controller
 {
@@ -54,8 +53,6 @@ class CalculationController extends Controller
         $currencyData = CurrencyContainer::getInstance();
         $fromCurrency = $currencyData->get($fromCurrencyName);
         $toCurrency = $currencyData->get($toCurrencyName);
-        //$exchange = new Exchange($fromCurrency, $toCurrency);
-
         return self::exchange($fromCurrency, $toCurrency, $amount);
     }
 

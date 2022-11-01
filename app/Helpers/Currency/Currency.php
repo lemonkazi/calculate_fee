@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Currency;
+namespace App\Helpers\Currency;
 
 use Illuminate\Support\Facades\Config;
 
@@ -11,7 +11,7 @@ class Currency
      *
      * @var string
      */
-    public $BASE_CURRENCY = 'EUR';
+    public $BASE_CURRENCY;
 
     /**
      * Currency name.
@@ -19,14 +19,6 @@ class Currency
      * @var string currency name
      */
     private string $currency;
-
-    /**
-     * Decimals for currency.
-     *
-     * @var int currency decimal point
-     */
-    private int $decimals = 2;
-
 
     /**
      * Currency fractions
@@ -61,7 +53,6 @@ class Currency
         } catch (\Throwable $th) {
             return $this->BASE_CURRENCY = 'EUR';
         }
-        //return $this->BASE_CURRENCY = 'EUR';
     }
 
     /**
@@ -74,7 +65,6 @@ class Currency
     public function setCurrency(string $currency): self
     {
         $this->currency = $currency;
-
         return $this;
     }
 
@@ -103,7 +93,6 @@ class Currency
     public function setDecimals(int $decimals): self
     {
         $this->decimals = $decimals;
-
         return $this;
     }
 }

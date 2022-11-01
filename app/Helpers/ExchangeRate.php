@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\ExchangeRate;
+namespace App\Helpers;
 
 use Illuminate\Support\Facades\Config;
 /**
@@ -10,27 +10,17 @@ use Illuminate\Support\Facades\Config;
 class ExchangeRate
 {
 
-    const EXCHANGE_RATES_URL = "https://developers.paysera.com/tasks/api/currency-exchange-rates";
-
-    //const DEFAULT_CURRENCY = Config::get('global.BASE_CURRENCY');
-    const DEFAULT_CURRENCY = 'EUR';
-
     /**
      * Get Currency rates.
-     *
-     * @todo We'll definitely get this data from the rates API.
-     *       But as it's mentioned in Doc not to use the p..xx api
-     *       We've just kept the arrays in here for now.
      *
      * @return array all currency lists as array
      */
     public static function all(): array
     {
         try{
-            //$resource = file_get_contents(self::EXCHANGE_RATES_URL);
             $ch = curl_init();
             $options = array(
-                CURLOPT_URL => self::EXCHANGE_RATES_URL,
+                CURLOPT_URL => Config::get('global.EXCHANGE_RATES_URL'),
                 CURLOPT_HEADER => false,
                 CURLOPT_POST => true,
                 CURLOPT_RETURNTRANSFER => true,
@@ -41,7 +31,6 @@ class ExchangeRate
             $resource = curl_exec($ch);
             curl_close($ch);
         } catch (\Exception $e) {
-            
             return Config::get('global.exchange_rate');
         }
         
@@ -63,7 +52,6 @@ class ExchangeRate
     public static function get(string $name): float
     {
         $rates = self::all();
-
         return isset($rates[$name]) ? floatval($rates[$name]) : 0;
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Transaction;
+namespace App\Helpers\Transaction;
 
 use App\Http\Controllers\CalculationController;
 use App\Traits\MoneyFormatTrait;
-use App\Transaction\Deposit\Deposit;
-use App\Transaction\Withdraw\Withdraw;
+use App\Helpers\Transaction\Deposit\Deposit;
+use App\Helpers\Transaction\Withdraw\Withdraw;
 use Exception;
 use Throwable;
 

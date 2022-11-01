@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Currency;
 
-use App\ExchangeRate\ExchangeRate;
+use App\Helpers\ExchangeRate;
 use Tests\TestCase;
 
 class ExchangeRateTest extends TestCase

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Transaction\Transaction;
+use App\Helpers\Transaction\Transaction;
 
 class TransactionController extends Controller
 {

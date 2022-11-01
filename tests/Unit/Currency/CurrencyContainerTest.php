@@ -3,10 +3,9 @@
 
 namespace Tests\Unit\Currency;
 
-use App\Currency\Currency;
-use App\Currency\CurrencyContainer;
+use App\Helpers\Currency\Currency;
+use App\Helpers\Currency\CurrencyContainer;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Config;
 
 class CurrencyContainerTest extends TestCase
 {
@@ -45,9 +44,6 @@ class CurrencyContainerTest extends TestCase
     protected function tearDown(): void
     {
         parent::tearDown();
-        $this->container->remove('EUR')
-            ->remove('USD')
-            ->remove('JPY');
     }
 
     /**

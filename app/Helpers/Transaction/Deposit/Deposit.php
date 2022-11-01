@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Transaction\Deposit;
+namespace App\Helpers\Transaction\Deposit;
 
-use App\Commission\Commission;
+use App\Helpers\Commission;
 use App\Interfaces\CommissionInterface;
 use App\Traits\CommissionTrait;
 use Illuminate\Support\Facades\Config;

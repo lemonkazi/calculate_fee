@@ -1,19 +1,13 @@
 <?php
 
-namespace App\Currency;
-
+namespace App\Helpers\Currency;
 
 /**
  * Currency Container class.
  *
- * We use this just for storing our currencies in Memory.
  */
 class CurrencyContainer
 {
-
-
-    //use SingletonTrait;
-
     /**
      * Get all currencies.
      *
@@ -37,7 +31,6 @@ class CurrencyContainer
         if (!isset(self::$instance)) {
             self::$instance = new self();
         }
-
         return self::$instance;
     }
 
@@ -79,21 +72,5 @@ class CurrencyContainer
         }
 
         return $this->currencies[$currencyName];
-    }
-
-    /**
-     * Remove a currency from the container.
-     *
-     * @param string $currencyName currency name
-     *
-     * @return self container class instance
-     */
-    public function remove(string $currencyName): self
-    {
-        if (isset($this->currencies[$currencyName])) {
-            unset($this->currencies[$currencyName]);
-        }
-
-        return $this;
     }
 }

@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Commission;
+namespace App\Helpers;
 
 /**
  * Commission calculation class.
  *
- * related to commission calculation.
  */
 class Commission
 {
@@ -22,7 +21,6 @@ class Commission
         if ($commissionFee === 0) {
             return 0;
         }
-
         return ($transactionAmount * $commissionFee) / 100;
     }
 }

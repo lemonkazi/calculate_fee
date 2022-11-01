@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Transaction;
 
-use App\TransactionMapper\TransactionMapper;
-use App\Transaction\Deposit\Deposit;
+use App\Helpers\TransactionMapper;
+use App\Helpers\Transaction\Deposit\Deposit;
 //use PHPUnit\Framework\TestCase;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Config;

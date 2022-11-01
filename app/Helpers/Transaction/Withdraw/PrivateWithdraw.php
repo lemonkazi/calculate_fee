@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Transaction\Withdraw;
+namespace App\Helpers\Transaction\Withdraw;
 
-use App\Commission\Commission;
+use App\Helpers\Commission;
 use Illuminate\Support\Facades\Config;
 use Carbon\Carbon;
 

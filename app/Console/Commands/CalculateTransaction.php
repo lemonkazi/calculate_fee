@@ -2,10 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Currency\CurrencyContainer;
-use App\Currency\Currency;
-use App\TransactionMapper\TransactionMapper;
-//use App\Http\Controllers\Transaction;
+use App\Helpers\Currency\CurrencyContainer;
+use App\Helpers\Currency\Currency;
+use App\Helpers\TransactionMapper;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Console\Command;
 

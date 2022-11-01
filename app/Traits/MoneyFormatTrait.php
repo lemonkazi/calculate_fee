@@ -2,8 +2,7 @@
 
 namespace App\Traits;
 
-use App\Currency\CurrencyContainer;
-use App\Currency\Currency;
+use App\Helpers\Currency\CurrencyContainer;
 
 trait MoneyFormatTrait
 {
