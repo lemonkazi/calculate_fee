@@ -12,7 +12,7 @@ use Throwable;
 /**
  * Transaction Processor class.
  *
- * Handles Items[] and process it.
+ * Handles transactionItems[] and process it.
  */
 class Transaction
 {

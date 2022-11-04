@@ -5,33 +5,17 @@ namespace Tests\Unit;
 use App\Http\Controllers\CalculationController;
 use Tests\TestCase;
 
-class CalculatorTest extends TestCase
+class CalculationTest extends TestCase
 {
 
-     /**
-     * Add a csv file before starting the processes.
-     *
-     * @return void
-     */
-    protected function setup(): void
-    {
-        parent::setUp();
-       
-    }
-
+    
     /**
-     * Delete the file after processing.
+     * @param float $amount
+     * @param float $fromRate
+     * @param float $toRate
+     * @param float   $expectation
      *
-     * @return void
-     */
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-    }
-    /**
-     * @test
-     *
-     * @dataProvider dataProviderForRateChange
+     * @dataProvider dataProvider
      */
     public function testChangeRate(float $amount, float $fromRate, float $toRate, float $expectation): void
     {
@@ -43,14 +27,13 @@ class CalculatorTest extends TestCase
         );
     }
 
-    public function dataProviderForRateChange(): array
+    public function dataProvider(): array
     {
         return [
-            'Change amount 100 by rate 1:4.5' => [100, 1, 4.5, 450],
-            'Change amount 1 by rate 1:4.5' => [1, 1, 4.5, 4.5],
-
-            // Check division by zero case.
-            'Change amount 100 by wrong rate 0:5' => [100, 0, 5, 0],
+            'Change amount 1 by rate 1:8' => [1, 1, 8, 8],
+            'Change amount 100 by wrong rate 0:10' => [100, 0, 10, 0],
+            'Change amount 200 by rate 1:5' => [200, 1, 5, 1000],
+            
         ];
     }
 }

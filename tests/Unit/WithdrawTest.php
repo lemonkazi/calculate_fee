@@ -9,31 +9,12 @@ use Tests\TestCase;
 class WithdrawTest extends TestCase
 {
 
-     /**
-     * Add a csv file before starting the processes.
-     *
-     * @return void
-     */
-    protected function setup(): void
-    {
-        parent::setUp();
-       
-    }
-
-    /**
-     * Delete the file after processing.
-     *
-     * @return void
-     */
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-    }
+    
     /**
      * @param string $lineData transaction item line data
      * @param string $expected expected commission
      *
-     * @dataProvider dataProviderForBusinessWithdrawTransaction
+     * @dataProvider dataProvider
      */
     public function testGetWithdrawCommissionForBusiness(string $lineData, float $expected)
     {
@@ -46,7 +27,7 @@ class WithdrawTest extends TestCase
         $this->assertEquals($expected, $commission);
     }
 
-    public function dataProviderForBusinessWithdrawTransaction(): array
+    public function dataProvider(): array
     {
         // Withdraw for business client ==> 0.5%
         return [

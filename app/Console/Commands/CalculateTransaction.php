@@ -90,11 +90,7 @@ class CalculateTransaction extends Command
             $currincies = config('global.currency');
             foreach ($currincies as $value) {
                 $currencySet = new Currency();
-                if ($value == 'JPY') {
-                    $currencySet->setCurrency($value);
-                } else {
-                    $currencySet->setCurrency($value);
-                }
+                $currencySet->setCurrency($value);
                 $currencyData->add($currencySet);
             }
             /**

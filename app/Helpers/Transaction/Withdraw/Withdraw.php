@@ -2,7 +2,6 @@
 
 namespace App\Helpers\Transaction\Withdraw;
 
-use App\Helpers\Commission;
 use App\Interfaces\CommissionInterface;
 use App\Traits\CommissionTrait;
 use Illuminate\Support\Facades\Config;
@@ -41,7 +40,7 @@ class Withdraw implements CommissionInterface
          * We don't need to process additional week calculation.
          */
         if ($this->transactionItem->clientType === 'business') {
-            return Commission::commissionFee($this->transactionItem->amount, $this->commissionFee);
+            return $this->commissionFee($this->transactionItem->amount, $this->commissionFee);
         }
 
         /*

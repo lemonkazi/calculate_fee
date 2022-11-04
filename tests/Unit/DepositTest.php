@@ -9,31 +9,12 @@ use Tests\TestCase;
 class DepositTest extends TestCase
 {
 
-    /**
-     * Add a csv file before starting the processes.
-     *
-     * @return void
-     */
-    protected function setup(): void
-    {
-        parent::setUp();
-       
-    }
-
-    /**
-     * Delete the file after processing.
-     *
-     * @return void
-     */
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-    }
+    
     /**
      * @param string $lineData transaction item line data
      * @param string $expected expected commission
      *
-     * @dataProvider dataProviderForDepositTransaction
+     * @dataProvider dataProvider
      */
     public function testGetDepositCommission(string $lineData, float $expected)
     {
@@ -46,9 +27,9 @@ class DepositTest extends TestCase
         $this->assertEquals($expected, $commission);
     }
 
-    public function dataProviderForDepositTransaction(): array
+    public function dataProvider(): array
     {
-        // Deposit for all type client ==> 0.03%
+        // Deposit commission fee  0.03%
         return [
             'Get deposit commission for private client of 500.00 EUR' => ['2016-01-10,2,private,deposit,500.00,EUR', 0.15], // 0.03 * 500 = 0.15
             'Get deposit commission for business client of 10000.00 EUR' => ['2016-01-10,2,business,deposit,10000.00,EUR', 3.0], // 0.03 * 10000 = 3.0

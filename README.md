@@ -1,11 +1,12 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Calculation Fee
+- This repository has the code with Commission calculation for this calculation I used laravel framework.
+- It handles operations provided in CSV format and calculates a commission fee.
+- Created a CLI command to check those commission calculation according to provided rules in my task.
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+
+## Requirements
+- PHP 7.4^
+- https://laravel.com/docs/8.x/artisan
 
 ## About Laravel
 
@@ -21,41 +22,81 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+## Install composer dependencies
+Install the dependencies and devDependencies and start the server.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```sh
+cd calculate_fee
+composer install
+```
+## Setup configuration Environment
+- Setup configuration: simply update your configuration accordingly in `.env` like below
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```sh
+BASE_CURRENCY=EUR
+DEPOSIT_COMMISSION=0.03
+WEEKLY_FREE_LIMIT=1000
+WEEKLY_LIMIT=3
+WITHDRAW_PRIVATE_COMMUSSION=0.3
+WITHDRAW_BUSINESS_COMMUSSION=0.5
+EXCHANGE_RATES_URL=
+```
+I start the transactions according to the EUR, 
 
-## Laravel Sponsors
+Note: You have to add `EXCHANGE_RATES_URL`  with api url for exchange rate e.g (https://example.com/tasks/api/currency-exchange-rates)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```php
+BASE_CURRENCY = "EUR";
+```
+## How to run
+- I have added a file called `(input.csv)`  You will test this csv file through below CLI command through terminal
 
-### Premium Partners
+ ```sh
+ php artisan calculate:transaction input.csv
+ ```
+ ## Calculation Process 
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+ - Calculation Process is like below steps
+    ### Step 1 -> read CSV file
+    -> read csv data
+    ### Step 2 -> convert currency to base currency 
+    -> I have created seperate helper class to get exchange rate from `API URL` (app/helpers/ExchangeRate.php)
 
-## Contributing
+    -> I set currency container from configuration in `config/global.php` -> 'currency' => ['EUR', 'USD', 'JPY'],
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    -> convert each set amount currency to base currency in csv (e.g USD to EUR/ JPY to EUR)
 
-## Code of Conduct
+    ### Step 3 -> Calculate transaction commission by type of transaction and user type 
+    -> calculate commission accoding to transaction type - `Withdraw`, `Deposit`
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    -> During commission calculation `Private` type user will get weekly 3 times free of charge commission.
 
-## Security Vulnerabilities
+    -> This was most hard steps to measure commission for `Private` type user in this application
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    -> I solved it by array structure by week array for each transaction
 
+    ```php
+    $this->withdraws[$userId][$weekNo]['count']
+    ```
+
+    ### Step 4 -> revert calculated commission amount into own currency from base currency
+    -> Then converted this commission to own currency from base currency that already we converted first time
+
+    ### Step 5 -> return formatted commission number according to currency fraction
+    -> then calculated formatted amount according to currency wise fraction
+
+    -> currency wise fraction I set in config file `config/global.php` `CURRENCY_FRACTION`
+      
+
+
+
+### PHPUnit Test
+-`17 tests`, 
+-`17 assertions`
+
+```sh
+./vendor/bin/phpunit
+```
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

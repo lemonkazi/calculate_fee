@@ -8,26 +8,7 @@ use Tests\TestCase;
 class CurrencyTest extends TestCase
 {
 
-     /**
-     * Add a csv file before starting the processes.
-     *
-     * @return void
-     */
-    protected function setup(): void
-    {
-        parent::setUp();
-       
-    }
-
-    /**
-     * Delete the file after processing.
-     *
-     * @return void
-     */
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-    }
+   
     /**
      * Test Set Curency
      *

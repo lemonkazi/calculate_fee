@@ -8,39 +8,26 @@ use Tests\TestCase;
 class ExchangeRateTest extends TestCase
 {
 
-     /**
-     * Add a csv file before starting the processes.
-     *
-     * @return void
-     */
-    protected function setup(): void
-    {
-        parent::setUp();
-       
-    }
-
+    
     /**
-     * Delete the file after processing.
+     * @param string $currency
+     * @param mixed   $expected
      *
-     * @return void
+     * @dataProvider dataProvider
      */
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-    }
-    /**
-     * @test
-     */
-    public function testGetExchange()
+    public function testGetExchange($currency,$expected)
     {
         $this->assertEquals(
-            1,
-            ExchangeRate::get('EUR')
+            $expected,
+            ExchangeRate::get($currency)
         );
+    }
 
-        $this->assertEquals(
-            130.869977,
-            ExchangeRate::get('JPY')
-        );
+    public function dataProvider(): array
+    {
+        return [
+            'Currency exchange rate for USD' => ['EUR', 1],
+            'Currency exchange rate for JPY' => ['JPY', 130.869977],
+        ];
     }
 }

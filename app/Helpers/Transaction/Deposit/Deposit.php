@@ -2,7 +2,6 @@
 
 namespace App\Helpers\Transaction\Deposit;
 
-use App\Helpers\Commission;
 use App\Interfaces\CommissionInterface;
 use App\Traits\CommissionTrait;
 use Illuminate\Support\Facades\Config;
@@ -33,7 +32,7 @@ class Deposit implements CommissionInterface
      */
     public function getCommission(): float
     {
-        return Commission::commissionFee($this->transactionItem->amount, $this->commissionFee);
+        return $this->commissionFee($this->transactionItem->amount, $this->commissionFee);
     }
 
     /**

@@ -2,7 +2,8 @@
 
 namespace App\Helpers\Transaction\Withdraw;
 
-use App\Helpers\Commission;
+
+use App\Traits\CommissionTrait;
 use Illuminate\Support\Facades\Config;
 use Carbon\Carbon;
 
@@ -15,6 +16,7 @@ use Carbon\Carbon;
  */
 class PrivateWithdraw
 {
+    use CommissionTrait;
     /**
      * Weekly withdraws hashmap.
      *`
@@ -46,11 +48,8 @@ class PrivateWithdraw
         if (!isset(self::$instance)) {
             self::$instance = new self();
         }
-
         return self::$instance;
     }
-
-
 
     /**
      * Get weekly withdraw hashmap array.
@@ -118,9 +117,6 @@ class PrivateWithdraw
     /**
      * Get weekly commission.
      *
-     * Find weekly commission amount by calculating withdrawal total
-     * and weekly limits.
-     *
      * @param Withdraw $withdraw withdraw instance
      *
      * @return float weekly commission amount
@@ -149,7 +145,7 @@ class PrivateWithdraw
             $alreadyWithdrawn &&
             ($isRemain >= 1 || $totalWithdrawn >= $weeklyFreeLimit)
         ) {
-            return Commission::commissionFee($amount, $commissionFee);
+            return $this->commissionFee($amount, $commissionFee);
         }
 
         // Increment weekly withdraws
@@ -168,6 +164,6 @@ class PrivateWithdraw
             $amount = $totalWithdrawn - $weeklyFreeLimit;
         }
 
-        return Commission::commissionFee($amount, $commissionFee);
+        return $this->commissionFee($amount, $commissionFee);
     }
 }

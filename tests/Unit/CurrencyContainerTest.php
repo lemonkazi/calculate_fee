@@ -26,15 +26,12 @@ class CurrencyContainerTest extends TestCase
         $baseCurrency = new Currency();
         $baseCurrency->setCurrency('EUR');
 
-        $currencyUsd = new Currency();
-        $currencyUsd->setCurrency('USD');
-
-        $currencyJpy = new Currency();
-        $currencyJpy->setCurrency('JPY');
-
-        $this->container->add($baseCurrency)
-            ->add($currencyUsd)
-            ->add($currencyJpy);
+        $currincies = config('global.currency');
+        foreach ($currincies as $value) {
+            $currencySet = new Currency();
+            $currencySet->setCurrency($value);
+            $this->container->add($currencySet);
+        }
     }
 
     /**
@@ -46,33 +43,28 @@ class CurrencyContainerTest extends TestCase
     }
 
     /**
-     * @test
+     * @param string $currency
+     * @param int   $expected
+     *
+     * @dataProvider dataProvider
      */
-    public function testGetCurrencyContainerData()
+    public function testGetCurrencyContainerData($currency,$expected)
     {
-        /*
-        * Test For USD Currency with Zero (2) fractions
-        */
-        $currencyUsd = $this->container->get('USD');
-
-        // Test if currency is instantiated.
-        $this->assertTrue($currencyUsd instanceof Currency);
+        
+        $currency = $this->container->get($currency);
 
         // Test if fractions get works.
         $this->assertEquals(
-            2,
-            $currencyUsd->getFractions()
+            $expected,
+            $currency->getFractions()
         );
+    }
 
-        /*
-        * Test For JPY Currency with Zero (0) fractions
-        */
-        $currencyJpy = $this->container->get('JPY');
-
-        // Test if fractions get works.
-        $this->assertEquals(
-            0,
-            $currencyJpy->getFractions()
-        );
+    public function dataProvider(): array
+    {
+        return [
+            'Currency fraction for USD' => ['USD', 2],
+            'Currency fraction for JPY' => ['JPY', 0],
+        ];
     }
 }

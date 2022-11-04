@@ -90,16 +90,14 @@ class TransactionTest extends TestCase
         $baseCurrency = new Currency();
         $baseCurrency->setCurrency('EUR');
 
-        $currencyUsd = new Currency();
-        $currencyUsd->setCurrency('USD');
-
-        $currencyJpy = new Currency();
-        $currencyJpy->setCurrency('JPY');
-
         $currencyData = CurrencyContainer::getInstance();
-        $currencyData->add($baseCurrency)
-            ->add($currencyUsd)
-            ->add($currencyJpy);
+
+        $currincies = config('global.currency');
+        foreach ($currincies as $value) {
+            $currencySet = new Currency();
+            $currencySet->setCurrency($value);
+            $currencyData->add($currencySet);
+        }
             
         foreach ($csvData as $data) {
             $transactionItems[] = new TransactionMapper($data);
